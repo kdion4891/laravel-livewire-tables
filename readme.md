@@ -2,7 +2,7 @@
 
 ![Laravel Livewire Tables](https://i.imgur.com/Jg5WPOa.gif)
 
-A dynamic, responsive Laravel Livewire table component with searching, sorting, checkboxes, and pagination.
+A dynamic, responsive [Laravel Livewire](https://laravel-livewire.com) table component with searching, sorting, checkboxes, and pagination.
 
 - [Support](https://github.com/kdion4891/laravel-livewire-tables/issues)
 - [Contributions](https://github.com/kdion4891/laravel-livewire-tables/pulls)
@@ -10,21 +10,38 @@ A dynamic, responsive Laravel Livewire table component with searching, sorting, 
 
 # Installation
 
-This package was designed to work well with [Laravel frontend scaffolding](https://laravel.com/docs/master/frontend). Make sure you have already done frontend scaffolding before using this package.
-
 Installing via composer:
 
     composer require kdion4891/laravel-livewire-tables
     
-This package uses [Font Awesome](https://fontawesome.com) for icons. If you don't already have it installed, it's as simple as:
+This package was designed to work well with [Laravel frontend scaffolding](https://laravel.com/docs/master/frontend). `laravel/ui` is included with this package, so all you need to do is run the `ui` command with your favorite preset if you haven't done so already, for example:
 
-    npm i @fortawesome/fontawesome-free
+    php artisan ui bootstrap --auth
+
+If you're just doing scaffolding now, you'll need to add the Livewire tags to your `resources/views/layouts/app.blade.php` file:
+
+    <html>
+    <head>
+        ...
+        @livewireStyles
+    </head>
+    <body>
+        ...
+        @livewireScripts
+    </body>
+    </html>
+
+This package also uses [Font Awesome](https://fontawesome.com) for icons. If you don't already have it installed, it's as simple as:
+
+    npm install @fortawesome/fontawesome-free
     
-Then add this to `resources/sass/app.scss`:
+Then add the following line to `resources/sass/app.scss`:
     
     @import '~@fortawesome/fontawesome-free/css/all.min.css';
     
-And don't forget to `npm run dev`!
+Now all that's left is to compile the assets:
+    
+    npm install && npm run dev
 
 # Making Table Components
 
