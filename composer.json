@@ -1,0 +1,29 @@
+{
+    "name": "kdion4891/laravel-livewire-tables",
+    "description": "A dynamic, responsive Laravel Livewire table component with searching, sorting, checkboxes, and pagination.",
+    "homepage": "https://github.com/kdion4891/laravel-livewire-tables",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Kevin Dion",
+            "email": "kdion4891@icloud.com",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "laravel/framework": "6.*",
+        "livewire/livewire": "^0.7.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Kdion4891\\LaravelLivewireTables\\": "src"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Kdion4891\\LaravelLivewireTables\\Providers\\TableServiceProvider"
+            ]
+        }
+    }
+}

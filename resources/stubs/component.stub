@@ -1,0 +1,24 @@
+<?php
+
+namespace App\Http\Livewire;
+
+use App\DummyModel;
+use Kdion4891\LaravelLivewireTables\Column;
+use Kdion4891\LaravelLivewireTables\TableComponent;
+
+class DummyComponent extends TableComponent
+{
+    public function query()
+    {
+        return DummyModel::query();
+    }
+
+    public function columns()
+    {
+        return [
+            Column::make('ID')->searchable()->sortable(),
+            Column::make('Created At')->searchable()->sortable(),
+            Column::make('Updated At')->searchable()->sortable(),
+        ];
+    }
+}
