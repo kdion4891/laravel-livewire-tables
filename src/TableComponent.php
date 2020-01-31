@@ -3,7 +3,6 @@
 namespace Kdion4891\LaravelLivewireTables;
 
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -64,6 +63,16 @@ class TableComponent extends Component
             Column::make('Created At')->searchable()->sortable(),
             Column::make('Updated At')->searchable()->sortable(),
         ];
+    }
+
+    public function trClass($row)
+    {
+        return null;
+    }
+
+    public function tdClass($attribute, $value)
+    {
+        return null;
     }
 
     public function rows()
@@ -136,24 +145,5 @@ class TableComponent extends Component
         }
 
         $this->sort_attribute = $attribute;
-    }
-
-    public static function trClass($row)
-    {
-        return method_exists($row, 'trClass')
-            ? call_user_func([$row, 'trClass'])
-            : null;
-    }
-
-    public static function tdClass($row, $column)
-    {
-        return method_exists($row, 'tdClass')
-            ? call_user_func([$row, 'tdClass'], $column->attribute, self::value($row, $column))
-            : null;
-    }
-
-    public static function value($row, $column)
-    {
-        return Arr::get($row->toArray(), $column->attribute);
     }
 }

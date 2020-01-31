@@ -52,7 +52,7 @@
                     </thead>
                     <tbody>
                     @foreach($rows as $row)
-                        <tr class="{{ TableComponent::trClass($row) }}">
+                        <tr class="{{ $this->trClass($row) }}">
                             @if($checkbox)
                                 <td class="align-middle">
                                     <input type="checkbox" wire:model="checkbox_values" value="{{ $row->{$checkbox_attribute} }}">
@@ -60,11 +60,11 @@
                             @endif
 
                             @foreach($columns as $column)
-                                <td class="align-middle {{ TableComponent::tdClass($row, $column) }}">
+                                <td class="align-middle {{ $this->tdClass($column->attribute, $value = Arr::get($row->toArray(), $column->attribute)) }}">
                                     @if($column->view)
                                         @include($column->view)
                                     @else
-                                        {{ TableComponent::value($row, $column) }}
+                                        {{ $value }}
                                     @endif
                                 </td>
                             @endforeach

@@ -219,6 +219,46 @@ Example:
 
 Declaring `Column`s is similar to declaring Laravel Nova fields. [Jump to the column declaration section](#table-column-declaration) to learn more.
 
+### `trClass($row)`
+
+This method is used to compute the `<tr>` CSS class for the row. 
+    
+##### `$row`
+
+The model instance for the row.
+
+Example:
+
+    public function trClass($row)
+    {
+        if ($row->name == 'Silverado') return 'table-secondary';
+        if ($row->accidents_count > 8) return 'table-danger';
+        if ($row->brand->name == 'Ford') return 'table-primary';
+
+        return null;
+    }
+
+### `tdClass($attribute, $value)`
+
+This method is used to compute the `<td>` CSS class for the data.
+
+##### `$attribute`
+
+The column attribute.
+
+##### `$value`
+
+The column value.
+
+    public function tdClass($attribute, $value)
+    {
+        if ($attribute == 'name' && $value == 'Silverado') return 'table-secondary';
+        if ($attribute == 'accidents_count' && $value < 2) return 'table-success';
+        if ($attribute == 'brand.name' && $value == 'Ford') return 'table-primary';
+
+        return null;
+    }
+
 ### `mount()`
 
 This method sets the initial table properties. If you have to override it, be sure to call `$this->setTableProperties()`.
@@ -335,53 +375,6 @@ Using a custom view for a relationship column? No problem:
 
 Think of `$row` as an instance of the model, because that's exactly what it is.
 
-# Computing `<tr>` & `<td>` CSS Classes
-
-Sometimes it's useful to be able to compute dynamic CSS classes for your table rows & columns. This package makes that easy.
-
-All you have to do is create a couple of new methods in your model class to make it work. This is the model you use in the table component `query()` method.
-
-Example:
-
-    class Car extends Model
-    {
-        // my other model code here
-        
-        public function trClass()
-        {
-            if ($this->name == 'Silverado') return 'table-secondary';
-            if ($this->accidents_count > 8) return 'table-danger';
-            if ($this->brand->name == 'Ford') return 'table-primary';
-    
-            return null;
-        }
-    
-        public function tdClass($attribute, $value)
-        {
-            if ($attribute == 'name' && $value == 'Silverado') return 'table-secondary';
-            if ($attribute == 'accidents_count' && $value < 2) return 'table-success';
-            if ($attribute == 'brand.name' && $value == 'Ford') return 'table-primary';
-    
-            return null;
-        }
-    }
-
-### `trClass()`
-
-This method is used to compute the `<tr>` CSS class for the model row. Notice the use of `$this` in the example. It also works great with counts and relationships!
-
-### `tdClass($attribute, $value)`
-
-This method is used to compute the `<td>` CSS class for the model column.
-
-##### `$attribute`
-
-The column attribute.
-
-##### `$value`
-
-The column value.
-
 # Publishing Files
 
 Publishing files is optional.
@@ -393,4 +386,3 @@ Publishing the table view file:
 Publishing the config file:
 
     php artisan vendor:publish --tag=table-config
-    

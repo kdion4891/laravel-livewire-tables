@@ -2,18 +2,13 @@
 
 namespace Kdion4891\LaravelLivewireTables\Providers;
 
-use Illuminate\Foundation\AliasLoader;
 use Illuminate\Support\ServiceProvider;
 use Kdion4891\LaravelLivewireTables\Commands\MakeTable;
-use Kdion4891\LaravelLivewireTables\TableComponent;
 
 class TableServiceProvider extends ServiceProvider
 {
     public function boot()
     {
-        $loader = AliasLoader::getInstance();
-        $loader->alias('TableComponent', TableComponent::class);
-
         if ($this->app->runningInConsole()) {
             $this->commands([MakeTable::class]);
         }
