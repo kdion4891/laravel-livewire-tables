@@ -18,18 +18,17 @@ This package was designed to work well with [Laravel frontend scaffolding](https
 
     php artisan ui bootstrap --auth
 
-If you're just doing scaffolding now, you'll need to add the Livewire tags to your `resources/views/layouts/app.blade.php` file:
+If you're just doing scaffolding now, you'll need to add the Livewire `@livewireScripts` and `@livewireStyles` blade directives to your `resources/views/layouts/app.blade.php` file:
 
-    <html>
-    <head>
-        ...
-        @livewireStyles
-    </head>
-    <body>
-        ...
-        @livewireScripts
-    </body>
-    </html>
+    <!-- Scripts -->
+    <script src="{{ asset('js/app.js') }}" defer></script>
+    @livewireScripts
+    
+    ...
+
+    <!-- Styles -->
+    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    @livewireStyles
 
 This package also uses [Font Awesome](https://fontawesome.com) for icons. If you don't already have it installed, it's as simple as:
 
@@ -249,6 +248,8 @@ The column attribute.
 ##### `$value`
 
 The column value.
+
+Example:
 
     public function tdClass($attribute, $value)
     {
