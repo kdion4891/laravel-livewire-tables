@@ -16,7 +16,8 @@ class TableComponent extends Component
     public $header_view;
     public $footer_view;
     public $search;
-    public $checkbox = true;
+    public $checkbox;
+    public $checkbox_side;
     public $checkbox_attribute = 'id';
     public $checkbox_all = false;
     public $checkbox_values = [];
@@ -31,9 +32,9 @@ class TableComponent extends Component
 
     public function setTableProperties()
     {
-        $this->table_class = $this->table_class ? $this->table_class : config('laravel-livewire-tables.table_class');
-        $this->thead_class = $this->thead_class ? $this->thead_class : config('laravel-livewire-tables.thead_class');
-        $this->per_page = $this->per_page ? $this->per_page : config('laravel-livewire-tables.per_page');
+        foreach (['table_class', 'thead_class', 'checkbox', 'checkbox_side', 'per_page'] as $property) {
+            $this->$property = $this->$property ? $this->$property : config('laravel-livewire-tables.' . $property);
+        }
     }
 
     public function render()

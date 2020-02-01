@@ -134,6 +134,22 @@ Example:
 
     public $checkbox = false;
     
+Or, via `.env` to apply globally:
+
+    TABLE_CHECKBOX=false
+    
+### `$checkbox_side`
+
+The side of the table to place checkboxes on. Accepts `left` or `right`. Defaults to `right`.
+
+Example:
+
+    public $checkbox_side = 'left';
+    
+Or, via `.env` to apply globally:
+
+    TABLE_CHECKBOX_SIDE="left"
+    
 ### `$checkbox_attribute`
 
 Sets the attribute name to use for `$checkbox_values`. Defaults to `id`. I recommend keeping this as `id`.
@@ -210,9 +226,9 @@ Example:
             Column::make('ID')->searchable()->sortable(),
             Column::make('Brand Name', 'brand.name')->searchable()->sortable(),
             Column::make('Name')->searchable()->sortable(),
-            Column::make('Color')->view('cars.table.color')->searchable()->sortable(),
+            Column::make('Color')->searchable()->sortable()->view('cars.table-color'),
             Column::make('Accidents', 'accidents_count')->sortable(),
-            Column::make('')->view('cars.table.actions'),
+            Column::make()->view('cars.table-actions'),
         ];
     }
 
@@ -299,11 +315,11 @@ The `Column` class is used to declare your table columns.
         ];
     }
 
-### `make($heading, $attribute = null)`
+### `make($heading = ''', $attribute = null)`
 
 ##### `$heading`
 
-The heading to use for the table column, e.g. `Created At`.
+The heading to use for the table column, e.g. `Created At`. Can be null for view-only columns.
 
 ##### `$attribute`
 
@@ -354,7 +370,7 @@ Notice how the column is still `searchable()` and `sortable()`, because the `Car
 
 If you're making a view-only column (for action buttons, etc), just don't make it searchable or sortable:
 
-    Column::make('Actions')->view('cars.table-actions'),
+    Column::make()->view('cars.table-actions'),
 
 **Custom column views are passed `$row` and `$column` objects, as well as variables passed from the table component.**
 
@@ -380,7 +396,7 @@ Think of `$row` as an instance of the model, because that's exactly what it is.
 
 Publishing files is optional.
 
-Publishing the table view file:
+Publishing the table view files:
 
     php artisan vendor:publish --tag=table-views
 

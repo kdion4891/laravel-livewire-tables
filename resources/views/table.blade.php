@@ -25,10 +25,8 @@
                 <table class="table {{ $table_class }} mb-0">
                     <thead class="{{ $thead_class }}">
                     <tr>
-                        @if($checkbox)
-                            <th class="align-middle text-nowrap border-top-0">
-                                <input type="checkbox" wire:model="checkbox_all">
-                            </th>
+                        @if($checkbox && $checkbox_side == 'left')
+                            @include('laravel-livewire-tables::checkbox-all')
                         @endif
 
                         @foreach($columns as $column)
@@ -48,15 +46,17 @@
                                 @endif
                             </th>
                         @endforeach
+
+                        @if($checkbox && $checkbox_side == 'right')
+                            @include('laravel-livewire-tables::checkbox-all')
+                        @endif
                     </tr>
                     </thead>
                     <tbody>
                     @foreach($rows as $row)
                         <tr class="{{ $this->trClass($row) }}">
-                            @if($checkbox)
-                                <td class="align-middle">
-                                    <input type="checkbox" wire:model="checkbox_values" value="{{ $row->{$checkbox_attribute} }}">
-                                </td>
+                            @if($checkbox && $checkbox_side == 'left')
+                                @include('laravel-livewire-tables::checkbox-row')
                             @endif
 
                             @foreach($columns as $column)
@@ -68,6 +68,10 @@
                                     @endif
                                 </td>
                             @endforeach
+
+                            @if($checkbox && $checkbox_side == 'right')
+                                @include('laravel-livewire-tables::checkbox-row')
+                            @endif
                         </tr>
                     @endforeach
                     </tbody>
