@@ -23,7 +23,7 @@ class Column
         return $this->$property;
     }
 
-    public static function make($heading = '', $attribute = null)
+    public static function make($heading = null, $attribute = null)
     {
         return new static($heading, $attribute);
     }

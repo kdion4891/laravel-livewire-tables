@@ -315,7 +315,7 @@ The `Column` class is used to declare your table columns.
         ];
     }
 
-### `make($heading = ''', $attribute = null)`
+### `make($heading = null, $attribute = null)`
 
 ##### `$heading`
 
