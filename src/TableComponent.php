@@ -24,6 +24,7 @@ class TableComponent extends Component
     public $sort_attribute = 'id';
     public $sort_direction = 'desc';
     public $per_page;
+    public $base_path;
 
     public function mount()
     {
@@ -46,7 +47,7 @@ class TableComponent extends Component
     {
         return view('laravel-livewire-tables::table', [
             'columns' => $this->columns(),
-            'rows' => $this->rows()->paginate($this->per_page),
+            'rows' => $this->rows()->paginate($this->per_page)->withPath($this->base_path),
         ]);
     }
 
