@@ -10,11 +10,6 @@ class MakeTable extends Command
     protected $signature = 'make:table {name} {--model=Model}';
     protected $description = 'Make a new Laravel Livewire table component.';
 
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
     public function handle()
     {
         $stub = File::get(__DIR__ . '/../../resources/stubs/component.stub');

@@ -16,7 +16,7 @@
     </div>
 
     <div class="card overflow-auto mb-3">
-        @if($rows->isEmpty())
+        @if($models->isEmpty())
             <div class="card-body">
                 {{ __('No results to display.') }}
             </div>
@@ -53,14 +53,14 @@
                     </tr>
                     </thead>
                     <tbody>
-                    @foreach($rows as $row)
-                        <tr class="{{ $this->trClass($row) }}">
+                    @foreach($models as $model)
+                        <tr class="{{ $this->trClass($model) }}">
                             @if($checkbox && $checkbox_side == 'left')
                                 @include('laravel-livewire-tables::checkbox-row')
                             @endif
 
                             @foreach($columns as $column)
-                                <td class="align-middle {{ $this->tdClass($column->attribute, $value = Arr::get($row->toArray(), $column->attribute)) }}">
+                                <td class="align-middle {{ $this->tdClass($column->attribute, $value = Arr::get($model->toArray(), $column->attribute)) }}">
                                     @if($column->view)
                                         @include($column->view)
                                     @else
@@ -82,7 +82,7 @@
 
     <div class="row justify-content-between">
         <div class="col-auto">
-            {{ $rows->links() }}
+            {{ $models->links() }}
         </div>
         @if($footer_view)
             <div class="col-md-auto">

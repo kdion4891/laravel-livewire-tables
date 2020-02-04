@@ -6,16 +6,16 @@ use Illuminate\Support\Str;
 
 class Column
 {
-    private $heading;
-    private $attribute;
-    private $searchable = false;
-    private $sortable = false;
-    private $view;
+    protected $heading;
+    protected $attribute;
+    protected $searchable = false;
+    protected $sortable = false;
+    protected $view;
 
     public function __construct($heading, $attribute)
     {
         $this->heading = $heading;
-        $this->attribute = $attribute ? $attribute : Str::snake(Str::lower($heading));
+        $this->attribute = $attribute ?? Str::snake(Str::lower($heading));
     }
 
     public function __get($property)

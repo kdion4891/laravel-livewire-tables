@@ -4,12 +4,13 @@ namespace Kdion4891\LaravelLivewireTables;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Str;
+use Kdion4891\LaravelLivewireTables\Traits\ThanksYajra;
 use Livewire\Component;
 use Livewire\WithPagination;
 
 class TableComponent extends Component
 {
-    use WithPagination;
+    use WithPagination, ThanksYajra;
 
     public $table_class;
     public $thead_class;
@@ -33,7 +34,7 @@ class TableComponent extends Component
     public function setTableProperties()
     {
         foreach (['table_class', 'thead_class', 'checkbox', 'checkbox_side', 'per_page'] as $property) {
-            $this->$property = $this->$property ? $this->$property : config('laravel-livewire-tables.' . $property);
+            $this->$property = $this->$property ?? config('laravel-livewire-tables.' . $property);
         }
     }
 
@@ -46,7 +47,7 @@ class TableComponent extends Component
     {
         return view('laravel-livewire-tables::table', [
             'columns' => $this->columns(),
-            'rows' => $this->rows()->paginate($this->per_page),
+            'models' => $this->models()->paginate($this->per_page),
         ]);
     }
 
@@ -66,7 +67,7 @@ class TableComponent extends Component
         ];
     }
 
-    public function trClass($row)
+    public function trClass($model)
     {
         return null;
     }
@@ -76,17 +77,16 @@ class TableComponent extends Component
         return null;
     }
 
-    public function rows()
+    public function models()
     {
-        $rows = $this->query();
-        $ty = new ThanksYajra;
+        $models = $this->query();
 
         if ($this->search) {
-            $rows->where(function (Builder $query) use ($ty) {
+            $models->where(function (Builder $query) {
                 foreach ($this->columns() as $column) {
                     if ($column->searchable) {
                         if (Str::contains($column->attribute, '.')) {
-                            $relationship = $ty->relationship($column->attribute);
+                            $relationship = $this->relationship($column->attribute);
 
                             $query->orWhereHas($relationship->name, function (Builder $query) use ($relationship) {
                                 $query->where($relationship->attribute, 'like', '%' . $this->search . '%');
@@ -105,14 +105,14 @@ class TableComponent extends Component
         }
 
         if (Str::contains($this->sort_attribute, '.')) {
-            $relationship = $ty->relationship($this->sort_attribute);
-            $sort_attribute = $ty->attribute($rows, $relationship->name, $relationship->attribute);
+            $relationship = $this->relationship($this->sort_attribute);
+            $sort_attribute = $this->attribute($models, $relationship->name, $relationship->attribute);
         }
         else {
             $sort_attribute = $this->sort_attribute;
         }
 
-        return $rows->orderBy($sort_attribute, $this->sort_direction);
+        return $models->orderBy($sort_attribute, $this->sort_direction);
     }
 
     public function updatedSearch()
@@ -125,8 +125,8 @@ class TableComponent extends Component
         $this->checkbox_values = [];
 
         if ($this->checkbox_all) {
-            $this->rows()->each(function ($row) {
-                $this->checkbox_values[] = (string)$row->{$this->checkbox_attribute};
+            $this->models()->each(function ($model) {
+                $this->checkbox_values[] = (string)$model->{$this->checkbox_attribute};
             });
         }
     }

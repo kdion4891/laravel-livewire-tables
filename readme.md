@@ -161,7 +161,20 @@ Example:
 ### `$checkbox_values`
 
 Contains an array of checked values. For example, if `$checkbox_attribute` is set to `id`, this will contain an array of checked model `id`s.
-Then you can use those `id`s to do whatever you want in your component.
+Then you can use those `id`s to do whatever you want in your component. For example, a `deleteChecked` button inside a custom `$header_view`.
+
+Example `deleteChecked` button:
+
+    <button class="btn btn-danger" onclick="confirm('Are you sure?') || event.stopImmediatePropagation();" wire:click="deleteChecked">
+        Delete Checked
+    </button>
+
+Example `deleteChecked` method:
+
+    public function deleteChecked()
+    {
+        Car::whereIn('id', $this->checkbox_values)->delete();
+    }
 
 ### `$sort_attribute`
 
@@ -191,7 +204,7 @@ Example:
     
 ### `$per_page`
 
-Sets the amount of rows to display per page. Defaults to `15`.
+Sets the amount of results to display per page. Defaults to `15`.
 
 Example:
 
@@ -234,28 +247,28 @@ Example:
 
 Declaring `Column`s is similar to declaring Laravel Nova fields. [Jump to the column declaration section](#table-column-declaration) to learn more.
 
-### `trClass($row)`
+### `trClass($model)`
 
-This method is used to compute the `<tr>` CSS class for the row. 
+This method is used to compute the `<tr>` CSS class for the table row. 
     
-##### `$row`
+##### `$model`
 
-The model instance for the row.
+The model instance for the table row.
 
 Example:
 
-    public function trClass($row)
+    public function trClass($model)
     {
-        if ($row->name == 'Silverado') return 'table-secondary';
-        if ($row->accidents_count > 8) return 'table-danger';
-        if ($row->brand->name == 'Ford') return 'table-primary';
+        if ($model->name == 'Silverado') return 'table-secondary';
+        if ($model->accidents_count > 8) return 'table-danger';
+        if ($model->brand->name == 'Ford') return 'table-primary';
 
         return null;
     }
 
 ### `tdClass($attribute, $value)`
 
-This method is used to compute the `<td>` CSS class for the data.
+This method is used to compute the `<td>` CSS class for the table data.
 
 ##### `$attribute`
 
@@ -372,25 +385,23 @@ If you're making a view-only column (for action buttons, etc), just don't make i
 
     Column::make()->view('cars.table-actions'),
 
-**Custom column views are passed `$row` and `$column` objects, as well as variables passed from the table component.**
+**Custom column views are passed `$model` and `$column` objects, as well as variables passed from the table component.**
 
 For the `Paint Color` example, we can use the `paint_color` attribute from the model like so:
 
     {{-- resources/views/cars/table-paint-color.blade.php --}}
-    <i class="fa fa-circle" style="color: {{ $row->paint_color }};"></i>
+    <i class="fa fa-circle" style="color: {{ $model->paint_color }};"></i>
 
 For the action buttons example, we can use the `id` attribute from the model like so:
 
     {{-- resources/views/cars/table-actions.blade.php --}}
-    <button class="btn btn-primary" wire:click="showCar({{ $row->id }})">Show</button>
-    <button class="btn btn-primary" wire:click="editCar({{ $row->id }})">Edit</button>
+    <button class="btn btn-primary" wire:click="showCar({{ $model->id }})">Show</button>
+    <button class="btn btn-primary" wire:click="editCar({{ $model->id }})">Edit</button>
 
 Using a custom view for a relationship column? No problem:
 
     {{-- resources/views/cars/table-brand-name.blade.php --}}
-    {{ $row->brand->name }}
-
-Think of `$row` as an instance of the model, because that's exactly what it is.
+    {{ $model->brand->name }}
 
 # Publishing Files
 
