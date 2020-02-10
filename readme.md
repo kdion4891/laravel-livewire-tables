@@ -247,6 +247,25 @@ Example:
 
 Declaring `Column`s is similar to declaring Laravel Nova fields. [Jump to the column declaration section](#table-column-declaration) to learn more.
 
+### `thClass($attribute)`
+
+This method is used to compute the `<th>` CSS class for the table header.
+
+##### `$attribute`
+
+The column attribute.
+
+Example:
+
+    public function thClass($attribute)
+    {
+        if ($attribute == 'name') return 'font-italic';
+        if ($attribute == 'accidents_count') return 'text-right';
+        if ($attribute == 'brand.name') return 'font-weight-bold';
+
+        return null;
+    }
+
 ### `trClass($model)`
 
 This method is used to compute the `<tr>` CSS class for the table row. 

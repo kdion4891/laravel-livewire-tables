@@ -67,6 +67,11 @@ class TableComponent extends Component
         ];
     }
 
+    public function thClass($attribute)
+    {
+        return null;
+    }
+
     public function trClass($model)
     {
         return null;
