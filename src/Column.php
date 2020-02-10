@@ -4,12 +4,21 @@ namespace Kdion4891\LaravelLivewireTables;
 
 use Illuminate\Support\Str;
 
+/**
+ * @property string $heading
+ * @property string $attribute
+ * @property boolean $searchable
+ * @property boolean $sortable
+ * @property callable $sortCallback
+ * @property string $view
+ */
 class Column
 {
     protected $heading;
     protected $attribute;
     protected $searchable = false;
     protected $sortable = false;
+    protected $sortCallback;
     protected $view;
 
     public function __construct($heading, $attribute)
@@ -34,8 +43,9 @@ class Column
         return $this;
     }
 
-    public function sortable()
+    public function sortable(callable $callback = null)
     {
+        $this->sortCallback = $callback;
         $this->sortable = true;
         return $this;
     }
