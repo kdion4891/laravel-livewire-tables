@@ -121,7 +121,7 @@ class TableComponent extends Component
         }
 
         if (($column = $this->getColumnByAttribute($this->sort_attribute)) !== null && is_callable($column->sortCallback)) {
-            return call_user_func($column->sortCallback, $models, $sort_attribute, $this->sort_direction);
+            return app()->call($column->sortCallback, ['models' => $models, 'sort_attribute' => $sort_attribute, 'sort_direction' => $this->sort_direction]);
         }
 
         return $models->orderBy($sort_attribute, $this->sort_direction);
