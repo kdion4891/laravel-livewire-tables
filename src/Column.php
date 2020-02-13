@@ -43,10 +43,15 @@ class Column
         return $this;
     }
 
-    public function sortable(callable $callback = null)
+    public function sortable()
+    {
+        $this->sortable = true;
+        return $this;
+    }
+
+    public function sortUsing(callable $callback)
     {
         $this->sortCallback = $callback;
-        $this->sortable = true;
         return $this;
     }
 
