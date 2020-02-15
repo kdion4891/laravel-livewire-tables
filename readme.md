@@ -403,10 +403,12 @@ Additionally, your callback will be passed through Laravel's Container so you ma
 Example:
 
     Column::make('Paint Color')->searchable()->sortable()->sortUsing(function ($models, $sort_attribute, $sort_direction) {
-        return $models->orderByRaw("cast({$sort_attribute}->'$.color_code' as unsigned) {$sort_direction}");
+        return $models->orderByRaw('cast(?->\'$.amount\' as unsigned) ?', [$sort_attribute, $sort_direction]);
     });
     
 This will sort the `paint_color` column using the JSON value `color_code`.
+
+**SQL Injection warning**: Make sure if you are using any of Eloquent's `*Raw` methods, you always use the bindings feature.
 
 ### `view($view)`
 
