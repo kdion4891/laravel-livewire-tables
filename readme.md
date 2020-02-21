@@ -403,7 +403,7 @@ Additionally, your callback will be passed through Laravel's Container so you ma
 Example:
 
     Column::make('Paint Color')->searchable()->sortable()->sortUsing(function ($models, $sort_attribute, $sort_direction) {
-        return $models->orderByRaw('cast(?->\'$.amount\' as unsigned) ?', [$sort_attribute, $sort_direction]);
+        return $models->orderByRaw('?->\'$.color_code\' ?', [$sort_attribute, $sort_direction]);
     });
     
 This will sort the `paint_color` column using the JSON value `color_code`.
