@@ -56,6 +56,9 @@ class TableComponent extends Component
         return \App\User::query();
     }
 
+    /**
+     * @return \Kdion4891\LaravelLivewireTables\Column[]
+     */
     public function columns()
     {
         return [
@@ -117,6 +120,10 @@ class TableComponent extends Component
             $sort_attribute = $this->sort_attribute;
         }
 
+        if (($column = $this->getColumnByAttribute($this->sort_attribute)) !== null && is_callable($column->sortCallback)) {
+            return app()->call($column->sortCallback, ['models' => $models, 'sort_attribute' => $sort_attribute, 'sort_direction' => $this->sort_direction]);
+        }
+
         return $models->orderBy($sort_attribute, $this->sort_direction);
     }
 
@@ -151,5 +158,19 @@ class TableComponent extends Component
         }
 
         $this->sort_attribute = $attribute;
+    }
+
+    /**
+     * @return null|\Kdion4891\LaravelLivewireTables\Column
+     */
+    protected function getColumnByAttribute($attribute)
+    {
+        foreach ($this->columns() as $col) {
+            if ($col->attribute === $attribute) {
+                return $col;
+            }
+        }
+
+        return null;
     }
 }

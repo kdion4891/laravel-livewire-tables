@@ -390,6 +390,26 @@ Sets the column to be searchable.
 
 Sets the column to be sortable.
 
+### `sortUsing($callback)`
+
+Allows custom logic to be used for sorting. Your supplied [`callable`](https://www.php.net/manual/en/language.types.callable.php) will receive the following parameters:
+
+* `$models`: The current Eloquent query (`\Illuminate\Database\Eloquent\Builder`). You should apply your sort logic to this query, and return it.
+* `$sort_attribute`: The name of the column currently being sorted. If you used a nested relationship for sorting, it will be properly transformed to `relationship_table.column_name` format so the query will be scoped correctly.
+* `$sort_direction`: The direction sort direction requested, either `asc`, or `desc`.
+
+Additionally, your callback will be passed through Laravel's Container so you may inject any dependencies you need in your callback. Make sure your dependencies are listed before the parameters above.
+
+Example:
+
+    Column::make('Paint Color')->searchable()->sortable()->sortUsing(function ($models, $sort_attribute, $sort_direction) {
+        return $models->orderByRaw('?->\'$.color_code\' ?', [$sort_attribute, $sort_direction]);
+    });
+    
+This will sort the `paint_color` column using the JSON value `color_code`.
+
+**SQL Injection warning**: Make sure if you are using any of Eloquent's `*Raw` methods, you always use the bindings feature.
+
 ### `view($view)`
 
 Sets a custom view to use for the column.
