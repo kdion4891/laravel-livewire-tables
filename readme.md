@@ -14,9 +14,7 @@ Installing via composer:
 
     composer require kdion4891/laravel-livewire-tables
     
-This package was designed to work well with [Laravel frontend scaffolding](https://laravel.com/docs/master/frontend). `laravel/ui` is included with this package, so all you need to do is run the `ui` command with your favorite preset if you haven't done so already, for example:
-
-    php artisan ui bootstrap --auth
+This package was designed to work well with [Laravel frontend scaffolding](https://laravel.com/docs/master/frontend).
 
 If you're just doing scaffolding now, you'll need to add the Livewire `@livewireScripts` and `@livewireStyles` blade directives to your `resources/views/layouts/app.blade.php` file:
 
