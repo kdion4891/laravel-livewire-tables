@@ -10,6 +10,10 @@ A dynamic, responsive [Laravel Livewire](https://laravel-livewire.com) table com
 
 # Installation
 
+Make sure you've installed Livewire:
+
+    composer require livewire/livewire
+
 Installing via composer:
 
     composer require kdion4891/laravel-livewire-tables
