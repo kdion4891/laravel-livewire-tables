@@ -10,10 +10,6 @@
             "role": "Developer"
         }
     ],
-    "require": {
-        "laravel/framework": "^6.0|^7.0",
-        "livewire/livewire": "^0.7.0|^1.0"
-    },
     "autoload": {
         "psr-4": {
             "Kdion4891\\LaravelLivewireTables\\": "src"
