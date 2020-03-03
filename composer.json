@@ -11,7 +11,7 @@
         }
     ],
     "require": {
-        "laravel/framework": "6.*",
+        "laravel/framework": "^6.0|^7.0",
         "laravel/ui": "^1.1|^2.0",
         "livewire/livewire": "^0.7.0|^1.0"
     },
