@@ -10,7 +10,7 @@ A dynamic, responsive [Laravel Livewire](https://laravel-livewire.com) table com
 
 # Installation
 
-Make sure you've [https://laravel-livewire.com/docs/installation/](installed Laravel Livewire).
+Make sure you've [installed Laravel Livewire](https://laravel-livewire.com/docs/installation/).
 
 Installing this package via composer:
 
