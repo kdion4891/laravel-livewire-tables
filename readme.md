@@ -20,15 +20,15 @@ This package was designed to work well with [Laravel frontend scaffolding](https
 
 If you're just doing scaffolding now, you'll need to add the Livewire `@livewireScripts` and `@livewireStyles` blade directives to your `resources/views/layouts/app.blade.php` file:
 
-    <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}" defer></script>
-    @livewireScripts
-    
-    ...
-
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     @livewireStyles
+    
+    ...
+    
+    <!-- Scripts -->
+    <script src="{{ asset('js/app.js') }}"></script>
+    @livewireScripts
 
 This package also uses [Font Awesome](https://fontawesome.com) for icons. If you don't already have it installed, it's as simple as:
 
