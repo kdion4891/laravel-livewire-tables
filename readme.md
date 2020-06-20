@@ -69,6 +69,8 @@ After making a component, you may want to edit the `query` and `column` methods:
         }
     }
     
+In the query method is possible to change the like operator to allow the use of "ilike" operator in postgresql. 
+    
 You don't have to use the `render()` method in your table component or worry about a component view, because the package handles that automatically.
 
 # Using Table Components

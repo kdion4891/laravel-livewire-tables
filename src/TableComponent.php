@@ -26,6 +26,7 @@ class TableComponent extends Component
     public $sort_direction = 'desc';
     public $per_page;
     public $like_operator= 'like'; 
+    
     public function mount()
     {
         $this->setTableProperties();
