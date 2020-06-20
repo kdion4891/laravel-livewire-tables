@@ -25,7 +25,8 @@ class TableComponent extends Component
     public $sort_attribute = 'id';
     public $sort_direction = 'desc';
     public $per_page;
-
+    public $like_operator= 'like'; 
+    
     public function mount()
     {
         $this->setTableProperties();
@@ -97,7 +98,7 @@ class TableComponent extends Component
                             $relationship = $this->relationship($column->attribute);
 
                             $query->orWhereHas($relationship->name, function (Builder $query) use ($relationship) {
-                                $query->where($relationship->attribute, 'like', '%' . $this->search . '%');
+                                $query->where($relationship->attribute, $this->like_operator, '%' . $this->search . '%');
                             });
                         }
                         else if (Str::endsWith($column->attribute, '_count')) {
@@ -105,7 +106,7 @@ class TableComponent extends Component
                             // If you read this and have a good solution, feel free to submit a PR :P
                         }
                         else {
-                            $query->orWhere($query->getModel()->getTable() . '.' . $column->attribute, 'like', '%' . $this->search . '%');
+                            $query->orWhere($query->getModel()->getTable() . '.' . $column->attribute, $this->like_operator, '%' . $this->search . '%');
                         }
                     }
                 }
