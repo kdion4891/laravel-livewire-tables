@@ -30,6 +30,7 @@
                                 @include('laravel-livewire-tables::checkbox-all')
                             @endif
 
+                            
                             @foreach($columns as $column)
                                 <th class="align-middle text-nowrap border-top-0 {{ $this->thClass($column->attribute) }}">
                                     @if($column->sortable)

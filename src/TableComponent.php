@@ -99,8 +99,16 @@ class TableComponent extends Component
     }
     public function models()
     {
+        // transform array in dot notation
+        $single_searchable_cols = $this->single_searchable_cols;
+        foreach($single_searchable_cols as $k_col => $col) {
+            if(gettype($col) == "array") {
+                foreach ($col as $k => $v) $single_searchable_cols[$k_col . "." . $k ] = $v;
+            }
+        }
+
         $models = $this->query();
-        $models->where(function (Builder $query) {
+        $models->where(function (Builder $query) use($single_searchable_cols){
             foreach ($this->columns() as $column) {
                 // search in all fields
                 if ($this->search) {
@@ -121,12 +129,12 @@ class TableComponent extends Component
                 }
 
                 // search in specific field
-                else if ($column->singleSearchable() && isset($this->single_searchable_cols[ $column->attribute ])) {
+                else if ($column->single_searchable && isset($single_searchable_cols[ $column->attribute ])) {
                     if (Str::contains($column->attribute, '.')) {
                         $relationship = $this->relationship($column->attribute);
 
-                        $query->whereHas($relationship->name, function (Builder $query) use ($relationship) {
-                            $query->where($relationship->attribute, 'like', '%' . $this->single_searchable_cols[ $column->attribute ] . '%');
+                        $query->whereHas($relationship->name, function (Builder $query) use ($relationship, $column,$single_searchable_cols) {
+                            $query->where($relationship->attribute, 'like', '%' . $single_searchable_cols[ $column->attribute ] . '%');
                         });
                     }
                     else if (Str::endsWith($column->attribute, '_count')) {
@@ -134,8 +142,11 @@ class TableComponent extends Component
                         // If you read this and have a good solution, feel free to submit a PR :P
                     }
                     else {
-                        $query->where($query->getModel()->getTable() . '.' . $column->attribute, 'like', '%' . $this->single_searchable_cols[ $column->attribute ] . '%');
+                        $query->where($query->getModel()->getTable() . '.' . $column->attribute, 'like', '%' . $single_searchable_cols[ $column->attribute ] . '%');
                     }
+                }
+                else if ($column->singleSearchable() && preg_match("/company/", $column->attribute)) {
+
                 }
             }
         });
