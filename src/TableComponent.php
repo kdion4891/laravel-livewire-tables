@@ -25,6 +25,8 @@ class TableComponent extends Component
     public $sort_attribute = 'id';
     public $sort_direction = 'desc';
     public $per_page;
+    public $single_searchable_cols = [];
+
 
     public function mount()
     {
@@ -85,13 +87,23 @@ class TableComponent extends Component
         return null;
     }
 
+    public function thSearchClass($attribute) {
+        return null;
+    }
+    public function hasSingleSearchableValue()
+    {
+        foreach ($this->single_searchable_cols as $value) {
+            if (!empty($value)) return true;
+        }
+        return false;
+    }
     public function models()
     {
         $models = $this->query();
-
-        if ($this->search) {
-            $models->where(function (Builder $query) {
-                foreach ($this->columns() as $column) {
+        $models->where(function (Builder $query) {
+            foreach ($this->columns() as $column) {
+                // search in all fields
+                if ($this->search) {
                     if ($column->searchable) {
                         if (Str::contains($column->attribute, '.')) {
                             $relationship = $this->relationship($column->attribute);
@@ -99,18 +111,34 @@ class TableComponent extends Component
                             $query->orWhereHas($relationship->name, function (Builder $query) use ($relationship) {
                                 $query->where($relationship->attribute, 'like', '%' . $this->search . '%');
                             });
-                        }
-                        else if (Str::endsWith($column->attribute, '_count')) {
+                        } else if (Str::endsWith($column->attribute, '_count')) {
                             // No clean way of using having() with pagination aggregation, do not search counts for now.
                             // If you read this and have a good solution, feel free to submit a PR :P
-                        }
-                        else {
+                        } else {
                             $query->orWhere($query->getModel()->getTable() . '.' . $column->attribute, 'like', '%' . $this->search . '%');
                         }
                     }
                 }
-            });
-        }
+
+                // search in specific field
+                else if ($column->single_searchable() && isset($this->single_searchable_cols[ $column->attribute ])) {
+                    if (Str::contains($column->attribute, '.')) {
+                        $relationship = $this->relationship($column->attribute);
+
+                        $query->whereHas($relationship->name, function (Builder $query) use ($relationship) {
+                            $query->where($relationship->attribute, 'like', '%' . $this->single_searchable_cols[ $column->attribute ] . '%');
+                        });
+                    }
+                    else if (Str::endsWith($column->attribute, '_count')) {
+                        // No clean way of using having() with pagination aggregation, do not search counts for now.
+                        // If you read this and have a good solution, feel free to submit a PR :P
+                    }
+                    else {
+                        $query->where($query->getModel()->getTable() . '.' . $column->attribute, 'like', '%' . $this->single_searchable_cols[ $column->attribute ] . '%');
+                    }
+                }
+            }
+        });
 
         if (Str::contains($this->sort_attribute, '.')) {
             $relationship = $this->relationship($this->sort_attribute);

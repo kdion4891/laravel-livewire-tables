@@ -17,9 +17,11 @@ class Column
     protected $heading;
     protected $attribute;
     protected $searchable = false;
+    protected $single_searchable = false;
     protected $sortable = false;
     protected $sortCallback;
     protected $view;
+
 
     public function __construct($heading, $attribute)
     {
@@ -43,11 +45,18 @@ class Column
         return $this;
     }
 
+    public function single_searchable()
+    {
+        $this->single_searchable = true;
+        return $this;
+    }
+
     public function sortable()
     {
         $this->sortable = true;
         return $this;
     }
+
 
     public function sortUsing(callable $callback)
     {
