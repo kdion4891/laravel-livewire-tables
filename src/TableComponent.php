@@ -121,7 +121,7 @@ class TableComponent extends Component
                 }
 
                 // search in specific field
-                else if ($column->single_searchable() && isset($this->single_searchable_cols[ $column->attribute ])) {
+                else if ($column->singleSearchable() && isset($this->single_searchable_cols[ $column->attribute ])) {
                     if (Str::contains($column->attribute, '.')) {
                         $relationship = $this->relationship($column->attribute);
 
