@@ -45,7 +45,7 @@ class Column
         return $this;
     }
 
-    public function single_searchable()
+    public function singleSearchable()
     {
         $this->single_searchable = true;
         return $this;
