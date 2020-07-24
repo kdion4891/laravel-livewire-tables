@@ -16,7 +16,7 @@
     </div>
 
     <div class="card mb-3">
-        @if($models->isEmpty())
+        @if($models->isEmpty() && !$this->hasSingleSearchableValue()))
             <div class="card-body">
                 {{ __('No results to display.') }}
             </div>
@@ -30,6 +30,7 @@
                                 @include('laravel-livewire-tables::checkbox-all')
                             @endif
 
+                            
                             @foreach($columns as $column)
                                 <th class="align-middle text-nowrap border-top-0 {{ $this->thClass($column->attribute) }}">
                                     @if($column->sortable)
@@ -44,6 +45,9 @@
                                         </span>
                                     @else
                                         {{ $column->heading }}
+                                    @endif
+                                    @if($column->single_searchable)
+                                            <div class="{{ $this->thSearchClass($column->attribute) }}"><input type="text" class="form-control" wire:model="single_searchable_cols.{{ $column->attribute }}" placeholder="{{ $column->heading }}"></div>
                                     @endif
                                 </th>
                             @endforeach
