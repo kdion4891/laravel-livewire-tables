@@ -5,12 +5,13 @@ namespace Kdion4891\LaravelLivewireTables;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Str;
 use Kdion4891\LaravelLivewireTables\Traits\ThanksYajra;
+use Kdion4891\LaravelLivewireTables\Traits\Export;
 use Livewire\Component;
 use Livewire\WithPagination;
 
 class TableComponent extends Component
 {
-    use WithPagination, ThanksYajra;
+    use WithPagination, ThanksYajra, Export;
 
     public $table_class;
     public $thead_class;
@@ -25,6 +26,8 @@ class TableComponent extends Component
     public $sort_attribute = 'id';
     public $sort_direction = 'desc';
     public $per_page;
+    public $exports = ['csv','xls','xlsx','pdf'];
+    public $export_filename = null;
 
     public function mount()
     {
