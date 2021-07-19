@@ -61,13 +61,16 @@
                                 @endif
 
                                 @foreach($columns as $column)
-                                    <td class="align-middle {{ $this->tdClass($column->attribute, $value = Arr::get($model->toArray(), $column->attribute)) }}">
+                                    <td class="align-middle {{ $this->tdClass($column->attribute, Arr::get($model->toArray(), $column->attribute)) }}">
                                         @if($column->view)
                                             @include($column->view)
                                         @else
-                                            {{ $value }}
+                                            @if ($column->accessor)
+                                                {{ $model->{$column->accessor} }}
+                                            @else
+                                                {{ $model->{$column->attribute} }}
+                                            @endif
                                         @endif
-                                    </td>
                                 @endforeach
 
                                 @if($checkbox && $checkbox_side == 'right')
