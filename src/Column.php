@@ -20,11 +20,14 @@ class Column
     protected $sortable = false;
     protected $sortCallback;
     protected $view;
+    protected $accessor;
+    protected $collspan;
 
-    public function __construct($heading, $attribute)
+    public function __construct($heading, $attribute, $accessor)
     {
         $this->heading = $heading;
         $this->attribute = $attribute ?? Str::snake(Str::lower($heading));
+        $this->accessor = $accessor;
     }
 
     public function __get($property)
@@ -32,9 +35,9 @@ class Column
         return $this->$property;
     }
 
-    public static function make($heading = null, $attribute = null)
+    public static function make($heading = null, $attribute = null, $accessor = null)
     {
-        return new static($heading, $attribute);
+        return new static($heading, $attribute, $accessor);
     }
 
     public function searchable()
@@ -46,6 +49,12 @@ class Column
     public function sortable()
     {
         $this->sortable = true;
+        return $this;
+    }
+
+    public function collspan(int $count)
+    {
+        $this->collspan = $count;
         return $this;
     }
 

@@ -31,7 +31,7 @@
                             @endif
 
                             @foreach($columns as $column)
-                                <th class="align-middle text-nowrap border-top-0 {{ $this->thClass($column->attribute) }}">
+                                <th @if ($column->collspan)colspan="{{$column->collspan}}"@endif class="align-middle text-nowrap border-top-0 {{ $this->thClass($column->attribute) }}">
                                     @if($column->sortable)
                                         <span style="cursor: pointer;" wire:click="sort('{{ $column->attribute }}')">
                                             {{ $column->heading }}
@@ -61,14 +61,25 @@
                                 @endif
 
                                 @foreach($columns as $column)
-                                    <td class="align-middle {{ $this->tdClass($column->attribute, $value = Arr::get($model->toArray(), $column->attribute)) }}">
+                                    <td class="align-middle {{ $this->tdClass($column->attribute, Arr::get($model->toArray(), $column->attribute)) }}">
                                         @if($column->view)
                                             @include($column->view)
                                         @else
-                                            {{ $value }}
+                                            @if ($column->accessor)
+                                                {{ $model->{$column->accessor} }}
+                                            @else
+                                                {{ $model->{$column->attribute} }}
+                                            @endif
                                         @endif
                                     </td>
                                 @endforeach
+                                    <td>
+                                        <div class="float-right">
+                                            <a href="{{ route($route, array_merge([$model], $routeModels)) }}" class="btn btn-sm btn-outline-primary float-left mr-0" title="{{ __('Show') }}">
+                                                <i class="far fa-eye"></i> <span class="d-none d-lg-inline-block">{{ __('Show') }}</span>
+                                            </a>
+                                        </div>
+                                    </td>
 
                                 @if($checkbox && $checkbox_side == 'right')
                                     @include('laravel-livewire-tables::checkbox-row')
