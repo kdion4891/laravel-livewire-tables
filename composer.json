@@ -1,5 +1,5 @@
 {
-    "name": "PHPieter/laravel-livewire-tables",
+    "name": "phpieter/laravel-livewire-tables",
     "description": "A dynamic, responsive Laravel Livewire table component with searching, sorting, checkboxes, and pagination.",
     "homepage": "https://github.com/kdion4891/laravel-livewire-tables",
     "license": "MIT",
