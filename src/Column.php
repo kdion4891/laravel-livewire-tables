@@ -21,6 +21,7 @@ class Column
     protected $sortCallback;
     protected $view;
     protected $accessor;
+    protected $collspan;
 
     public function __construct($heading, $attribute, $accessor)
     {
@@ -48,6 +49,12 @@ class Column
     public function sortable()
     {
         $this->sortable = true;
+        return $this;
+    }
+
+    public function collspan(int $count)
+    {
+        $this->collspan = $count;
         return $this;
     }
 

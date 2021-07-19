@@ -70,6 +70,11 @@ class TableComponent extends Component
         ];
     }
 
+    public function routes(): array
+    {
+        return [];
+    }
+
     public function thClass($attribute)
     {
         return null;
